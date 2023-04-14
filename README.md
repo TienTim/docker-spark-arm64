@@ -6,11 +6,12 @@
 Note: This source is from  [big-data-europe
 /
 docker-spark
-](https://github.com/big-data-europe/docker-spark) with some config to run on ARM64 (Apple Silicon) without warning
+](https://github.com/big-data-europe/docker-spark) with some configurations to run on ARM64 (Apple Silicon) without warning.
 
 Build ARM64 base image:
 
     bash build.sh base-arm base
+
 Run docker compose:
 
     docker-compose build --no-cache && docker-compose up -d --force-recreate
