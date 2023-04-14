@@ -1,4 +1,4 @@
-FROM bde2020/spark-base:3.3.0-hadoop3.3
+FROM bde2020/spark-base-arm:3.3.0-hadoop3.3
 
 LABEL maintainer="Gezim Sejdiu <g.sejdiu@gmail.com>, Giannis Mouchakis <gmouchakis@gmail.com>"
 
@@ -11,3 +11,4 @@ ENV SPARK_MASTER_LOG /spark/logs
 EXPOSE 8080 7077 6066
 
 CMD ["/bin/bash", "/master.sh"]
+
