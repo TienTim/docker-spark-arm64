@@ -3,6 +3,19 @@
 [![Twitter](https://img.shields.io/twitter/follow/BigData_Europe.svg?style=social)](https://twitter.com/BigData_Europe)
 # Spark docker
 
+Note: This source is from  [big-data-europe
+/
+docker-spark
+](https://github.com/big-data-europe/docker-spark) with some config to run on ARM64 (Apple Silicon) without warning
+
+Build ARM64 base image:
+
+    bash build.sh base-arm base
+Run docker compose:
+
+    docker-compose build --no-cache && docker-compose up -d --force-recreate
+
+
 Docker images to:
 * Setup a standalone [Apache Spark](https://spark.apache.org/) cluster running one Spark Master and multiple Spark workers
 * Build Spark applications in Java, Scala or Python to run on a Spark cluster
@@ -53,40 +66,50 @@ Add the following services to your `docker-compose.yml` to integrate a Spark mas
 version: '3'
 services:
   spark-master:
-    image: bde2020/spark-master:3.3.0-hadoop3.3
+    build: ./master
+    platform: linux/arm64/v8
     container_name: spark-master
     ports:
       - "8080:8080"
       - "7077:7077"
     environment:
       - INIT_DAEMON_STEP=setup_spark
+      
   spark-worker-1:
-    image: bde2020/spark-worker:3.3.0-hadoop3.3
+    build: ./worker
+    platform: linux/arm64/v8
     container_name: spark-worker-1
     depends_on:
       - spark-master
     ports:
       - "8081:8081"
+      - "7071:7071"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
+      
   spark-worker-2:
-    image: bde2020/spark-worker:3.3.0-hadoop3.3
+    build: ./worker
+    platform: linux/arm64/v8
     container_name: spark-worker-2
     depends_on:
       - spark-master
     ports:
-      - "8082:8081"
+      - "8082:8082"
+      - "7072:7072"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
-  spark-history-server:
-      image: bde2020/spark-history-server:3.3.0-hadoop3.3
-      container_name: spark-history-server
-      depends_on:
-        - spark-master
-      ports:
-        - "18081:18081"
-      volumes:
-        - /tmp/spark-events-local:/tmp/spark-events
+      
+  spark-worker-3:
+    build: ./worker
+    platform: linux/arm64/v8
+    container_name: spark-worker-3
+    depends_on:
+      - spark-master
+    ports:
+      - "8083:8083"
+      - "7073:7073"
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
 ```
 Make sure to fill in the `INIT_DAEMON_STEP` as configured in your pipeline.
 
