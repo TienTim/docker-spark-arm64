@@ -1,20 +1,27 @@
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/big-data-europe/Lobby)
-[![Build Status](https://travis-ci.org/big-data-europe/docker-spark.svg?branch=master)](https://travis-ci.org/big-data-europe/docker-spark)
-[![Twitter](https://img.shields.io/twitter/follow/BigData_Europe.svg?style=social)](https://twitter.com/BigData_Europe)
 # Spark docker
 
-Note: This source is from  [big-data-europe
+## Contents
+
+This source is from  [big-data-europe
 /
 docker-spark
 ](https://github.com/big-data-europe/docker-spark) with some configurations to run on ARM64 (Apple Silicon) without warning.
 
-Build ARM64 base image:
+## Usage
+
+Build ARM64 base image with the following command:
 
     bash build.sh base-arm base
 
-Run docker compose:
+To start running the docker, run the following command:
 
     docker-compose build --no-cache && docker-compose up -d --force-recreate
+
+To stop running the docker, run the following command:
+
+```bash
+docker-compose down -v --rmi all
+```
 
 
 Docker images to:
